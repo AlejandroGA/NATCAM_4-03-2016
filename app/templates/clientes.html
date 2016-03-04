@@ -1,0 +1,275 @@
+{% extends "base/base-asistente.html" %}
+
+{% block css_add %}
+	<style>
+        .False {
+            color: red;
+
+        }
+        .True {
+            color: rgba(76, 224, 62, 0.97);
+
+        }
+	</style>
+    {% load staticfiles %}
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+
+    <script type="text/javascript">
+	// For demo to fit into DataTables site builder...
+	$('#example')
+		.removeClass( 'display' )
+		.addClass('table table-striped table-bordered');
+</script>
+
+{% endblock css_add %}
+
+{% block sucursal %}
+    {{ datos.sucursal }}
+    {{ datos.get_tipo_display }}
+{% endblock %}
+
+{% block contenido %}
+    <div class="modal fade" id="paso2" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2"></div>
+                        <div class="col-md-5 col-sm-4 " >
+                            <div class="text-danger mr"><h4 class="ma">Agrega un nuevo cliente.</h4></div>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <h6>Cliente</h6>
+                                {{ form.cliente }}
+                                <hr/>
+                                <h6>Ife/Ine</h6>
+                                {{ form.ife }}
+                                <hr/>
+                                <h6>Carátula</h6>
+                                {{ form.caratula }}
+                                <hr/>
+                                <h6>Tarjeta de Mejoravit</h6>
+                                {{ form.tarjeta_de_mejoravit }}
+                                <hr/>
+                                <h6>Crédito</h6>
+                                {{ form.credito }}
+                                <div class="divider"></div>
+                                <hr/>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <hr>
+                            </form>
+                        </div><div class="col-md-4 col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" data-ng-app="Clientes">
+        <div class="table-responsive">
+		    <table class="table table-bordered display" id="example">
+		    <thead>
+		      <tr>
+                  <th>ID</th>
+		        <th>Nombre:</th>
+		        <th>Carátula</th>
+		        <th>Tarjeta Mejoravit</th>
+                <th>IFE/INE</th>
+		        <th>ODC 1</th>
+		        <th>ODC 2</th>
+		        <th>ODC 3</th>
+		        <th>Facturación</th>
+                <th>Comisión</th>
+                  <th>Enviar</th>
+                <td>Acciones</td>
+		      </tr>
+		    </thead>
+		    <tbody >
+                    {% for foo in cliente %}
+                            {{ foo.comision }}
+
+                        <tr>
+                            <td>
+                                <input name="ids" type="hidden" id="{{foo.id}}" value="{{ foo.id }}"/>
+                                {{ foo.id }}
+                            </td>
+                            <td>{{ foo.nombre }}{{ foo.apellidos }}</td>
+                            {% if tarjeta %}
+                            {% for faa in tarjeta %}
+                                {% if faa.cliente.id == foo.id %}
+                                <td>
+                                    <ul class="nav nav-pills">
+                                        <li role="presentation"><a href="{{ MEDIA_URL }}{{ faa.caratula.url }}"  target="_blank">caratula</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="nav nav-pills">
+                                        <li role="presentation"><a href="{{ MEDIA_URL }}{{ faa.tarjeta_de_mejoravit.url }}"  target="_blank">tarjeta</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="nav nav-pills">
+                                        <li role="presentation"><a href="{{ MEDIA_URL }}{{ faa.ife.url }}"  target="_blank">Ife</a></li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    {% for ord1 in orden1 %}
+                                        {% if faa.cliente.id == ord1.user.id %}
+                                            {% if ord1.orden_compra %}
+                                                Folio:{{ ord1.id }} - <div data-ng-init="ord1={{ ord1.total_amount }}">Monto: {{ ord1.total_amount }}</div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a href="{% url 'odc1' cliente_id=foo.id %}">Ver</a>
+                                </td>
+                                <td>
+                                    {% for ord2 in orden2 %}
+                                        Folio:{{ ord2.id }}
+                                        {% if faa.cliente.id == ord2.user.id %}
+                                            {% if  ord2.orden_compra %}
+                                                Folio:{{ ord2.id }}- <div data-ng-init="ord2={{ ord2.total_amount }}">Monto:{{ ord2.total_amount }}</div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a href="{% url 'odc2' cliente_id=foo.id %}">Ver</a>
+                                </td>
+                                <td>
+                                    {% for ord3 in orden3 %}
+                                        {% if faa.cliente.id == ord3.user.id %}
+                                            {% if ord3.orden_compra %}
+                                                Folio:{{ ord3.id }}- <div data-ng-init="ord3={{ ord3.total_amount }}">Monto:{{ ord3.total_amount }}</div>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a href="{% url 'odc3' cliente_id=foo.id %}">Ver</a>
+                                </td>
+                                <td data-ng-controller="CalculatorController">
+                                    <button type="button" class="btn btn-primary" data-target="#{{faa.cliente.id}}{{faa.cliente.nss}}" data-toggle="modal" data-ng-init="montoInicial={{ faa.credito}}" data-ng-click="calculate()">{{ faa.credito }}</button>
+                                    <div class="modal fade bs-example-modal-sm" id="{{faa.cliente.id}}{{faa.cliente.nss}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="table-responsive">
+                                              <table class="table">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Concepto</th>
+                                                    <th>Monto</th>
+                                                    <th>%</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <tr>
+                                                    <td>Monto del Credito</td>
+                                                    <td>{{ faa.credito }}</td>
+                                                    <td>100%</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Mano de Obra(Retiro efectivo cajero)</td>
+                                                    <td>-{$ manoObra $}</td>
+                                                    <td>-20%</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Credito(Saldo/FCM)</td>
+                                                    <td>{$ monto1 $}</td>
+                                                    <td>80%</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Impuestos(16%iva+4% infonavit)</td>
+                                                    <td>-{$ veinteiva $}</td>
+                                                    <td>-20%</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td>comision</td>
+                                                      <td>{{ faa.comisiona }}</td>
+                                                      <td></td>
+                                                  </tr>
+                                                   <tr>
+                                                    <td>Total</td>
+                                                    <td>{$ iva $}</td>
+                                                    <td>Entrega  efectivo</td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                        </div>
+                                </td>
+                                <td>
+                                    {{ foo.comision }}
+                                    -
+                                    {{ faa.comisiona }}
+                                </td>
+                               {#  <td><a href="{% url 'cargar_pdfs'  foo.id %}">Cargar</a></td> #}
+                                <td>
+                                    <a href="{% url 'enviar_email' cliente_id=foo.id %}">Enviar</a>
+                                </td>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Acciones <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <li>
+                                            <a  data-toggle="modal" data-target="#paso2" id="boton02">
+                                                <button id="{{ foo.id }}" value="{{ foo.id }}" class="btn btn-sucess boton_perfil">Caratula, IFE y T. Mejoravit
+                                                </button>
+
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+		    </tbody>
+		 </table>
+        </div>
+    </div>
+
+{% endblock contenido %}
+{% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <script>
+     	var app = angular.module('Clientes', [])
+     		app.config(function($interpolateProvider) {
+	        		$interpolateProvider.startSymbol('{$');
+	    		    $interpolateProvider.endSymbol('$}');
+	        });
+     	   	app.controller('CalculatorController',['$scope', function($scope){
+                $scope.montoInicial = {};
+				$scope.calculate = function(){
+					 $scope.manoObra = (parseInt($scope.montoInicial) * 20 /100);
+					 //cobtenemos el  20%
+					 $scope.monto1 = ($scope.montoInicial)-(parseInt($scope.montoInicial) * 20 /100);
+                    $scope.veinteiva = (parseInt($scope.monto1) * 20 /100);
+					 $scope.iva =  $scope.monto1 - $scope.veinteiva ;
+					 //obtenemos el iva
+				}
+			}]);
+            app.controller('FacturaController',['$scope', function($scope){
+                $scope.ord1 = {};
+                $scope.ord2 = {};
+                $scope.ord3 = {};
+				$scope.ordeness = function(){
+					 $scope.ord11 = (parseInt($scope.ord1));
+                     $scope.ord22 = (parseInt($scope.ord2));
+                    $scope.ord33 = (parseInt($scope.ord3));
+				}
+			}]);
+    </script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+
+            var $theButtons = $(".boton_perfil");
+            var $theinput = $("#id_cliente");
+            $theButtons.click(function(){
+               $theinput.val(this.value);
+            });
+
+        });
+      </script>
+{% endblock %}

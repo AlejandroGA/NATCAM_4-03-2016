@@ -1,0 +1,244 @@
+
+{% extends "base/base-gael.html" %}
+{% load poll_extras %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'moment/min/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js' %}"></script>
+
+	{% block css_add %}
+	<style>
+	.color{
+		background-color: #e74c3c;
+		font-size: 4rem;
+	}
+	.numero{
+		text-align: center;
+		color: #fff;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.huge{
+		font-size: 2rem;
+	}
+    .panel{
+		background-color: #2196f3;
+		color: #fff;
+        text-align: left;
+	}
+	</style>
+
+    {% load staticfiles %}
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+
+    <script type="text/javascript">
+   // For demo to fit into DataTables site builder...
+   $('#example')
+      .removeClass( 'display' )
+      .addClass('table table-striped table-bordered');
+
+</script>
+{% endblock css_add %}
+
+
+{% block contenido %}
+    <div class="container">
+	            <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="fa fa-comments fa-5x"></div>
+                                    </div>
+                                    <div class="col-xs-9 col-sm-9 text-right">
+                                        <div class="huge" align="center">{{ sum_relacionpt.importe__sum  }}</div>
+                                        <hr><div>Importes Pagados!</div><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left"></span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" align="center">{{ sum_fact.pag_clie__sum  }}.00</div>
+                                        <hr><div>Suma Facturacion</div><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left"></span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" align="center">{{ sum_com_t.com_t__sum  }}.00</div>
+                                        <hr><div>Comsiones Totales Pagadas!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left"></span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                       <i class="fa fa-users fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge" align="center">13</div>
+                                        <hr><div>Support Tickets!</div><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left"></span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                </div>
+
+
+                {{ prm }}
+                {{ lrm }}
+                {{ pry }}
+                {{ lry }}
+                {{ meses_padados }}
+
+                <table class="table table-striped">
+                 <thead>
+                  <tr>
+                     <th>Mes</th>
+                     <th>Monto</th>
+                  </tr>
+                 </thead>
+                 <tbody>
+                    {% for i in lrm|get_range %}
+                    {% if  i  ==  0 %}
+                        <tr>
+                            <td>Enero</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 1 %}
+                        <tr>
+                            <td> Febrero</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 2 %}
+                        <tr>
+                            <td> Marzo</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 3 %}
+                        <tr>
+                            <td> Abril</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 4 %}
+                        <tr>
+                            <td> Mayo</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 5 %}
+                        <tr>
+                            <td> Junio</td>
+                            <td>$100</td>
+                        </tr>
+                        Junio
+                    {% endif %}
+                    {% if i == 6 %}
+                        <tr>
+                            <td> Julio</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 7 %}
+                        <tr>
+                            <td> Agost</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 8 %}
+                        <tr>
+                            <td> Septiembre</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 9 %}
+                        <tr>
+                            <td> Octubre</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 10 %}
+                        <tr>
+                            <td> Noviembre</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                    {% if i == 11 %}
+                        <tr>
+                            <td> Diciembre</td>
+                            <td>$100</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                 </tbody>
+                    <tfoot>
+                  <tr>
+                     <td>Sum</td>
+                     <td>$180</td>
+                  </tr>
+                 </tfoot>
+                </table>
+
+
+
+
+                <!-- /.row -->
+{% endblock contenido %}
+{% block javascript %}
+
+{% endblock %}

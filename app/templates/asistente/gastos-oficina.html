@@ -1,0 +1,110 @@
+{% extends 'base/base-asistente.html' %}
+{% block css_add %}
+   <style>
+        .False {
+            color: red;
+
+        }
+        .True {
+            color: rgba(76, 224, 62, 0.97);
+
+        }
+   </style>
+    {% load staticfiles %}
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+
+    <script type="text/javascript">
+   // For demo to fit into DataTables site builder...
+   $('#example')
+      .removeClass( 'display' )
+      .addClass('table table-striped table-bordered');
+</script>
+{% endblock css_add %}
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+{% load staticfiles %}
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'js/jquery.js' %}" >
+{% block sucursal %}
+    {{ datos.sucursal }}
+    {{ datos.get_tipo_display }}
+{% endblock %}
+{% block contenido %}
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      Agregar Nueva Mensualidad de Gatos
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Agregar Mensualidad {{ datos.sucursal }}</h4>
+          </div>
+          <div class="modal-body">
+              <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+              </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <hr/>
+    <hr/>
+
+
+
+   <div class="row">
+        <div id="columnchart_material" style="width: 900px; height: 500px;"></div>
+   </div>
+     <script type="text/javascript">
+             google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Mes', 'Agua', 'Luz', 'Telefono', 'Renta', 'Varios'],
+          {% for g in gs %}
+            ['{{ g.fecha }}', {{ g.agua|default_if_none:'000' }}, {{ g.luz|default_if_none:'000' }},{{ g.telefono }} ,{{ g.renta }}, {{ g.varios }}],
+          {% endfor %}
+        ]);
+        var options = {
+          chart: {
+            title: 'Egresos Sucursal',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, options);
+      }
+    </script>
+
+
+
+    {% for fea in datossucursal %}
+                {{ fea.nombre }}
+
+        {% for datosusuario in datosusuarios %}
+            {{ datosusuario.usuario }}
+        {% endfor %}
+
+
+    {% endfor %}
+
+
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}

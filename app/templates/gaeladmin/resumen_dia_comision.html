@@ -1,0 +1,236 @@
+
+{% extends "base/base-gael.html" %}
+
+
+
+
+	{% block css_add %}
+
+	<style>
+	.color{
+		background-color: #e74c3c;
+		font-size: 4rem;
+	}
+	.numero{
+		text-align: center;
+		color: #fff;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.huge{
+		font-size: 2rem;
+	}
+	.panel{
+		background-color: #e74c3c;
+		color: #fff;
+        text-align: left;
+	}
+    .True{
+        background-color: seagreen;
+    }
+    .False{
+        background-color: #e74c3c;
+    }
+    .naranja{
+        background-color: royalblue;
+        color: #f0f0f0;
+    }
+	</style>
+
+	{% endblock css_add %}
+
+{% block contenido %}
+        <div class="modal fade" id="paso2" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                        </div>
+                        <div class="col-md-5 col-sm-4 " >
+                            <div class="text-danger mr"><h4 class="ma">Agrega Referencia de Pago1.</h4>
+                            </div>
+                                <form method="post"  role="form" >
+                                     {% csrf_token %}
+                                    {{ r_form.asesor.label }}
+                                    {{ r_form.asesor }}
+                                    <hr/>
+                                    {{ r_form.ref_pago.label }}
+                                    {{ r_form.ref_p}}
+                                    <hr/>
+                                    <button type="submit" class="btn btn-success" name="referencia_pago">Guardar</button>
+                                    <hr>
+                                </form>
+                        </div>
+                        <div class="col-md-4 col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="paso3" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                        </div>
+                        <div class="col-md-5 col-sm-4 " >
+                            <div class="text-danger mr"><h4 class="ma">Agrega Referencia de Pago.</h4>
+                            </div>
+                                <form method="post"  role="form" >
+                                     {% csrf_token %}
+                                    {{ b_rform.asesorb.label }}
+                                    {{ b_rform.asesorb }}
+                                    <hr/>
+                                    cheque cobrado
+                                    {{ b_rform.crdb_rpago }}
+                                    <hr/>
+                                    <button type="submit" class="btn btn-success" name="cheque_cobrado">Guardar</button>
+                                    <hr>
+                                </form>
+                        </div>
+                        <div class="col-md-4 col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+             <thead>
+              <tr>
+                 <th>Fecha</th>
+                 <th>Asesor</th>
+                  <th>Cliente</th>
+                 <th>%comision</th>
+                 <th>Comision</th>
+                 <th>Baucheo</th>
+                 <th>Total</th>
+
+                  <th></th>
+              </tr>
+             </thead>
+
+             <tbody>
+                {% for rp_c in diass %}
+                        <a href="">    </a>
+                        <tr>
+                            <td>{{ rp_c.fecha|date:"Y/m/d" }}</td>
+                            <td class="{{ rp_c.asesor }}">{{ rp_c.asesor }}</td>
+                            <td>{{ rp_c.cliente.nombre }}{{ rp_c.cliente.apellidos }}</td>
+                            <td>{{ rp_c.p_asesor }}</td>
+                            <td>{{ rp_c.comision }}</td>
+                            <td>100</td>
+                            <td>{{ rp_c.com_t}}</td>
+                        </tr>
+                {% endfor %}
+             </tbody>
+            <tfoot>
+                <tr class="totalColumn" >
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="naranja"></td>
+                </tr>
+            </tfoot>
+            </table>
+
+
+    <hr/>
+<div class="row">
+    <div class="col-md-7">
+            <table class="table">
+        <thead>
+            <tr>
+                <th>Asesor</th>
+                <th>Total</th>
+                <td>Ref. Pago</td>
+                <td>Acciones</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fi in asesoressd %}
+                <tr>
+                    <td>
+                        {{ fi.asesor }}
+                    </td>
+                    <td>
+                          {{ fi.comision_t }}
+                    </td>
+                    <td class="{{ fi.crdb_rpago }}">
+                        {{ fi.ref_p }}
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Asignar<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <a  data-toggle="modal" data-target="#paso2" id="boton02">
+                                        <button value="{{fi.asesor.id}}"  class="btn btn-success boton_perfil">cheque
+                                        </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a  data-toggle="modal" data-target="#paso3" id="boton03">
+                                        <button  value="{{fi.asesor.id }}" class="btn btn-success boton_perfib">cheque cobrado
+                                        </button>
+                                    </a>
+                                </li>
+                              </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <br>
+    <div class="col-md-5">
+        <button type="button" class="btn btn-primary btn-lg btn-block"  onClick="window.print()">generar PDF</button>
+    </div>
+</div>
+
+    {% load staticfiles %}
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#hideshow').on('click', function (event) {
+                $('#accordion').toggle('hide');
+            });
+
+            $('table thead th').each(function(i) {
+                calculateColumn(i);
+            });
+            var $theButtons = $(".boton_perfil");
+            var $theinput = $("#id_asesor");
+            $theButtons.click(function(){
+               $theinput.val(this.value);
+            });
+            var $theButtonsb = $(".boton_perfib");
+            var $theinputb = $("#id_asesorb");
+            $theButtonsb.click(function(){
+               $theinputb.val(this.value);
+            });
+        });
+        function calculateColumn(index) {
+            var total = 0;
+            $('table tr').each(function () {
+                var value = parseInt($('td', this).eq(index).text());
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+            $('table tfoot td').eq(index).text('Total: ' + total);
+        }
+    </script>
+                <!-- /.row -->
+{% endblock contenido %}
+{% block javascript %}
+
+{% endblock %}
