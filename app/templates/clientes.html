@@ -39,19 +39,22 @@
                             <div class="text-danger mr"><h4 class="ma">Agrega un nuevo cliente.</h4></div>
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <h6>Cliente</h6>
+                                <h5>Cliente</h5>
                                 {{ form.cliente }}
                                 <hr/>
-                                <h6>IFE/INE</h6>
+                                <h5>IFE/INE</h5>
+                                <!-- IFE/INE en mayusculas -->
                                 {{ form.ife }}
                                 <hr/>
-                                <h6>Carátula</h6>
+                                <h5>Carátula</h5>
+                                <!-- Cambiar Carátula -->
                                 {{ form.caratula }}
                                 <hr/>
-                                <h6>Tarjeta de Mejoravit</h6>
+                                <h5>Tarjeta de Mejoravit</h5>
+                                <!-- Cambiar Tarjeta en mayuscula -->
                                 {{ form.tarjeta_de_mejoravit }}
                                 <hr/>
-                                <h6>Crédito</h6>
+                                <h5>Crédito</h5>
                                 {{ form.credito }}
                                 <div class="divider"></div>
                                 <hr/>
