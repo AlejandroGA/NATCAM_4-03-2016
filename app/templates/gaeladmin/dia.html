@@ -8,12 +8,12 @@
     .None:after{
         content: "Falta A.";
     }
-    .False{
-        background-color: #e51c23 ;
+        .False{
+        background-color: darkred;
     }
-        .True{
-        background-color: #4caf50;
-        color: black;
+    .True{
+    background-color: seagreen;
+    color: black;
     }
     td#noMostrar{
         display: none;
@@ -43,7 +43,7 @@
                                     {{ r_form.ref_pago.label }}
                                     {{ r_form.ref_pago }}
                                     <hr/>
-                                    <button type="submit" class="btn btn-success" name="referencia_pago">Guardar</button>
+                                    <button type="submit" class="btn btn-primary" name="referencia_pago">Guardar</button>
                                     <hr>
                                 </form>
                         </div>
@@ -71,7 +71,7 @@
                                     cheque cobrado
                                     {{ b_rform.crbd_rpago }}
                                     <hr/>
-                                    <button type="submit" class="btn btn-success" name="cheque_cobrado">Guardar</button>
+                                    <button type="submit" class="btn btn-primary" name="cheque_cobrado">Guardar</button>
                                     <hr>
                                 </form>
                         </div>
@@ -105,7 +105,7 @@
                                     {{ odcs_p.odc3p.label }}
                                     {{ odcs_p.odc3p }}
                                     <hr/>
-                                    <button type="submit" class="btn btn-success" name="ordenes_pagadas">Guardar</button>
+                                    <button type="submit" class="btn btn-primary" name="ordenes_pagadas">Guardar</button>
                                     <hr>
                                 </form>
                         </div>
@@ -115,19 +115,31 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <form action="" method="post" >
-            {% csrf_token %}
-                {{ form.as_p }}
-                <input class="btn btn-success" type="submit" name="fecha_calendario"/>
-        </form>
-        </div>
-        <div class="col-md-4"></div>
-    </div>
 
-    <button id='hideshow' value='hide/show' class="btn btn-danger">Abrir Meses</button>
+    <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+              <br><br><br>
+          </div>
+          <div class="col-md-4">
+              <button id='hideshow' value='show/hide' class="btn btn-primary">Elegir Mes</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-2"></div>
+          <div class="col-md-4">
+              <form action="" method="post" >
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button class="btn btn-primary" type="submit" name="fecha_calendario">Consultar</button>
+              </form>
+          </div>
+    </div>
+    <br><br>
+
+
     <div class="row">
         <div class="col-md-10"></div>
         <div class="col-md-2">Año : {{ anio }} Mes:{{ mes}} </div>
@@ -285,7 +297,7 @@
                         <tbody>
                             {% for foo in diass  %}
                      <tr>
-                         <td><a href="{% url 'cliente_perfil' id=foo.id%}" >  <button  class="btn btn-success">{{ foo.cliente }} {{ foo.cliente.apellidos }}</button></a></td>
+                         <td><a href="{% url 'cliente_perfil' id=foo.id%}" >  <button  class="btn btn-primary">{{ foo.cliente }} {{ foo.cliente.apellidos }}</button></a></td>
                          <td class="{{ foo.odc1p }}">{{ foo.odc1 }}.00</td>
                          <td class="{{ foo.odc2p }}">{{ foo.odc2  }}.00</td>
                          <td class="{{ foo.odc3p }}">{{ foo.odc3 }}.00</td>
@@ -311,7 +323,7 @@
                                   </li>
                                   <li>
                                       <a  data-toggle="modal" data-target="#paso3" id="boton03">
-                                          <button id="{{foo.cliente.id }}" value="{{foo.cliente.id }}" class="btn btn-success boton_perfib">cheque Cobrado
+                                          <button id="{{foo.cliente.id }}" value="{{foo.cliente.id }}" class="btn btn-success boton_perfib">Cheque Cobrado
                                           </button>
                                       </a>
                                   </li>

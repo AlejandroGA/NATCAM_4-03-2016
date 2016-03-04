@@ -21,7 +21,7 @@
 		font-size: 2rem;
 	}
 	.panel{
-		background-color: #e74c3c;
+		background-color: #f9fffc;
 		color: #fff;
         text-align: left;
 	}
@@ -42,25 +42,37 @@
             ...
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary">Guardar Cambios</button>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
-            <div class="row">
-    <div class="col-md-5"></div>
-    <div class="col-md-2">
-        <form action="" method="post" >
-        {% csrf_token %}
+         <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-2">
+          <br><br><br>
+      </div>
+      <div class="col-md-4">
+        <button id='hideshow' value='show/hide' class="btn btn-primary">Elegir Mes</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-2"></div>
+      <div class="col-md-4">
+          <form action="" method="post" >
+            {% csrf_token %}
                 {{ form.as_p }}
-                <input class="btn btn-success" type="submit" name="fecha_calendario"/>
-        </form>
+            <button class="btn btn-primary" type="submit" name="fecha_calendario">Consultar</button>
+          </form>
+      </div>
     </div>
-    <div class="col-md-5"></div>
-    </div>
-        <button id='hideshow' value='show/hide' class="btn btn-danger">Abrir meses</button>
+    <br><br>
+
+
         <div class="row">
             <div class="col-md-10"></div>
             <div class="col-md-2">Mes: {{ mes }}</div>

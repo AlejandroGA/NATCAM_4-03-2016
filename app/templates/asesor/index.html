@@ -137,11 +137,11 @@
  <table class="table table-bordered display" id="example">
      <thead class="color1">
      <tr>
-         <th>id</th>
+         <th>Id</th>
          <th>Nombre</th>
          <th>Datos Personales</th>
          <th>Comisión</th>
-         <th>Facturaciòn</th>
+         <th>Facturación</th>
          <th>Fecha de Captura</th>
          <th>Acciones</th>
      </tr>
@@ -160,7 +160,7 @@
                               <table class="table">
                                   <thead>
                                   <tr>
-                                      <th>Titulo</th>
+                                      <th>Título</th>
                                       <th>Descripción</th>
                                   </tr>
                                   </thead>
@@ -190,11 +190,11 @@
                                       <td>{{ mi_cliente.cp }}</td>
                                   </tr>
                                   <tr>
-                                      <td><strong>Nss:</strong></td>
+                                      <td><strong>NSS:</strong></td>
                                       <td>{{ mi_cliente.nss }}</td>
                                   </tr>
                                   <tr>
-                                      <td><strong>Telefono:</strong></td>
+                                      <td><strong>Teléfono:</strong></td>
                                       <td>{{ mi_cliente.telefono }}</td>
                                   </tr>
                                   <tr>
@@ -219,7 +219,7 @@
                 {{ mi_cliente.comision }}
              </td>
              <td data-ng-controller="FacturaController">
-                 <button type="button" class="btn btn-primary" data-target="#{{mi_cliente.id}}{{ mi_cliente.nsn }}" data-toggle="modal"  data-ng-click="calculate()">ver</button>
+                 <button type="button" class="btn btn-primary" data-target="#{{mi_cliente.id}}{{ mi_cliente.nsn }}" data-toggle="modal"  data-ng-click="calculate()">Ver</button>
                     <div class="modal fade bs-example-modal-sm" id="{{mi_cliente.id}}{{ mi_cliente.nsn }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-sm">
                             <div class="modal-content">

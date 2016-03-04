@@ -668,6 +668,11 @@ def mes_comision(request, year, month):
     return render(request, 'gaeladmin/unico-mes.html', {
                                                         'rp_comisiones':mess,
                                                         'mes':mes,})
+
+
+
+
+
 def ver_resumencom(request,year, month, day):
     if request.method == 'POST':
         if 'referencia_pago' in request.POST:
